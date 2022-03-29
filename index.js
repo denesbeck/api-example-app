@@ -1,6 +1,6 @@
-const express = require("express");
-const app = express();
-const port = 3000;
+const express = require('express')
+const app = express()
+const port = 3000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -13,8 +13,23 @@ app.use((req, res, next) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-});
+    console.log(`Example app listening at http://localhost:${port}`)
+})
+
+String.prototype.escape = function () {
+    const tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        '/': '&#x2F;',
+    }
+
+    return this.replace(/[&<>"'/]/g, (tag) => {
+        return tagsToReplace[tag] || tag
+    })
+}
 
 app.use('/api/v1', require('./routes/v1/v1Routes'))
 app.use('/api/v2', require('./routes/v2/v2Routes'))
